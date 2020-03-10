@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - property:
+      name: now
+      value: now()
+      dbms: h2
+  - property:
+      name: now
+      value: sysdate
+      dbms: oracle
+
+  - include:
+      file: db/changelog/v1/create_product_category.sql
+  - include:
+      file: db/changelog/v1/create_brand_table.sql
+  - include:
+      file: db/changelog/v1/create_product_table.sql
+
+  - include:
+      file: db/changelog/v1/insert_brands.sql
+  - include:
+      file: db/changelog/v1/insert_category.sql
+
+
+
+
+
+
+
+

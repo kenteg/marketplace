@@ -1,0 +1,47 @@
+POST http://localhost:8080/addProduct
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{
+  "name": "xiaomi redmi lol pro 228",
+  "code": "test7770000",
+  "price": "22822828.22",
+  "description": "lol",
+  "brand": {
+    "name": "XIAOMI"
+  },
+  "category": {
+    "name": "MOBILE_PHONE",
+    "code": "MOBILE"
+  }
+}
+
+###
+
+GET http://localhost:8080/products?limit=2&page=0
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+<> 2020-03-09T013914.200.json
+<> 2020-03-09T013837.200.json
+<> 2020-03-09T013832.200.json
+<> 2020-03-09T013822.200.json
+<> 2020-03-08T114754.200.json
+<> 2020-03-08T114657.200.json
+<> 2020-03-08T114651.200.json
+<> 2020-03-08T114646.200.json
+<> 2020-03-08T114640.200.json
+<> 2020-03-08T114632.200.json
+<> 2020-03-08T114624.200.json
+<> 2020-03-08T114601.200.json
+<> 2020-03-08T113914.200.json
+<> 2020-03-08T113842.200.json
+<> 2020-03-08T111238.200.json
+<> 2020-03-08T124428.200.json
+<> 2020-03-07T093346.200.json
+<> 2020-03-07T093044.200.json
+<> 2020-03-07T092453.200.json
+
+###
