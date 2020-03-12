@@ -18,6 +18,7 @@ import model.dao.*
 import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import sample.Sample
 import sample.hello
@@ -46,11 +47,19 @@ object Routing {
 
             get("/products") {
                 val limit = call.request.queryParameters["limit"]?.toInt() ?: 10
-                var page = call.request.queryParameters["page"]?.toInt() ?: 0
+                val page = call.request.queryParameters["page"]?.toInt() ?: 0
+                val category = call.request.queryParameters["category"]
                 call.respond(
                     transaction {
                         addLogger(StdOutSqlLogger)
-                        model.dao.ProductDao.all().limit(limit, ++page).map { it.toModel() }
+
+                        if (category.isNullOrEmpty()) {
+                            ProductDao.all().limit(limit, page).map { it.toModel() }
+                        } else {
+                            ProductDao.wrapRows(Products.innerJoin(ProductCategories).select {
+                                ProductCategories.code eq category
+                            }).limit(limit, page).map { it.toModel() }
+                        }
                     }
                 )
             }

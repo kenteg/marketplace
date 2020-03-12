@@ -4,16 +4,16 @@ Cache-Control: no-cache
 Content-Type: application/json
 
 {
-  "name": "xiaomi redmi lol pro 228",
-  "code": "test7770000",
-  "price": "22822828.22",
+  "name": "xiaomi mibook",
+  "code": "test7770001",
+  "price": "92822828.22",
   "description": "lol",
   "brand": {
     "name": "XIAOMI"
   },
   "category": {
     "name": "MOBILE_PHONE",
-    "code": "MOBILE"
+    "code": "NOTEBOOK"
   }
 }
 
