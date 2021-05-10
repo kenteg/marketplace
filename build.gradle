@@ -1,30 +1,29 @@
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
 }
 
 plugins {
-    id 'org.jetbrains.kotlin.multiplatform' version '1.3.41'
+    id 'org.jetbrains.kotlin.multiplatform' version '1.5.0'
 }
 repositories {
-    jcenter()
     maven { url "https://dl.bintray.com/kotlin/ktor" }
     maven { url "https://dl.bintray.com/kotlin/kotlin-js-wrappers" }
     maven { url "https://dl.bintray.com/kotlin/kotlinx" }
+    maven { url "https://maven.pkg.jetbrains.space/kotlin/p/kotlin/kotlin-js-wrappers" }
     mavenCentral()
 }
-def ktor_version = '1.1.3'
+def ktor_version = '1.5.4'
 def logback_version = '1.2.3'
+
 
 kotlin {
     jvm()
     js {
         browser {
         }
-
     }
-
     sourceSets {
         commonMain {
             dependencies {
@@ -43,13 +42,12 @@ kotlin {
                 implementation "io.ktor:ktor-server-netty:$ktor_version"
                 implementation "io.ktor:ktor-html-builder:$ktor_version"
                 implementation "ch.qos.logback:logback-classic:$logback_version"
-                implementation "org.jetbrains.exposed:exposed:0.17.7"
+                implementation "org.jetbrains.exposed:exposed:+"
                 implementation "com.h2database:h2:1.4.200"
                 implementation "org.liquibase:liquibase-core:3.8.6"
                 implementation "com.zaxxer:HikariCP:3.4.2"
                 implementation "org.yaml:snakeyaml:1.25"
                 implementation "io.ktor:ktor-jackson:$ktor_version"
-
             }
         }
         jvmTest {
@@ -61,12 +59,22 @@ kotlin {
         jsMain {
             dependencies {
                 implementation kotlin('stdlib-js')
-                implementation "org.jetbrains:kotlin-extensions:1.0.1-pre.69-kotlin"
-                implementation "org.jetbrains:kotlin-css-js:1.0.0-pre.69-kotlin"
-                implementation "org.jetbrains:kotlin-react:16.6.0-pre.69-kotlin-1.3.21"
-                implementation "org.jetbrains:kotlin-react-dom:16.6.0-pre.69-kotlin-1.3.21"
-                implementation "org.jetbrains:kotlin-styled:1.0.0-pre.69-kotlin-1.3.21"
-                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.10.0"
+                implementation("org.jetbrains:kotlin-react:+")
+                implementation("org.jetbrains:kotlin-react-dom:+")
+                implementation("org.jetbrains:kotlin-react-router-dom:+")
+                implementation(npm("react", "17.0.2"))
+                implementation(npm("react-dom", "17.0.2"))
+
+                //Kotlin Styled (chapter 3)
+                implementation("org.jetbrains:kotlin-styled:+")
+                implementation(npm("styled-components", "~5.3.0"))
+                implementation(npm("inline-style-prefixer", "~6.0.0"))
+
+                //Video Player (chapter 7)
+                implementation(npm("react-player", "~2.6.0"))
+
+                //Share Buttons (chapter 7)
+                implementation(npm("react-share", "~4.4.0"))
             }
         }
         jsTest {
@@ -78,8 +86,8 @@ kotlin {
 }
 
 jvmJar {
-    dependsOn(jsBrowserWebpack)
-    from(new File(jsBrowserWebpack.entry.name, jsBrowserWebpack.outputPath))
+    dependsOn(jsBrowserDevelopmentWebpack)
+    from(new File(jsBrowserDevelopmentWebpack.entry.name, jsBrowserDevelopmentWebpack.outputPath))
 }
 
 task run(type: JavaExec, dependsOn: [jvmJar]) {
